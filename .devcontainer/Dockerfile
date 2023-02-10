@@ -2,6 +2,8 @@
 ARG VARIANT=bullseye
 FROM --platform=linux/amd64 mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get install -y firefox-esr
+
 # Desktop lite
 COPY library-scripts/desktop-lite-debian.sh /tmp/library-scripts/
 COPY fluxbox /home/vscode/.fluxbox/
@@ -16,5 +18,7 @@ ENV DBUS_SESSION_BUS_ADDRESS="autolaunch:" \
     DISPLAY=":1" \
     LANG="en_US.UTF-8" \
     LANGUAGE="en_US.UTF-8"
+
+
 ENTRYPOINT ["/usr/local/share/desktop-init.sh"]
 CMD ["sleep", "infinity"]
